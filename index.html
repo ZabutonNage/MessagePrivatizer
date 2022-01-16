@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Public Key Crypto Online</title>
+    <!-- TODO favicon -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Simple online public key encryption tool for text.">
+    <meta name="keywords" content="online public key encryption text simple">
+
+    <script src="lib/sodium-plus.min.js"></script>
+    <script defer src="app.js"></script>
+
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header>
+    <h1>Simple Encryptor</h1>
+</header>
+<main>
+    <nav>
+        <button class="btn-gen" data-page="page-generate" accesskey="g"><u>G</u>enerate key</button>
+        <button class="btn-enc" data-page="page-encrypt" accesskey="e" disabled><u>E</u>ncrypt / Decrypt</button>
+    </nav>
+
+    <div class="page page-generate hidden">
+        <h2>Generate key</h2>
+
+        <section>
+            <form id="generate-key">
+                <div>
+                    <label for="in-passphrase">Your secret passphrase <span class="hint">(<strong>never</strong> reveal to others)</span></label>
+                    <textarea id="in-passphrase" class="passphrase"
+                              placeholder="Longer and unique is better. Min 12 characters"
+                              rows="3" minlength="12"
+                              required autofocus></textarea>
+                </div>
+                <div>
+                    <button type="submit" data-defaults="disabled=$btrue" disabled>Generate</button>
+                </div>
+            </form>
+        </section>
+        <section>
+            <div>
+                <label for="out-public-key">Your public key <span class="hint">(give to others)</span></label>
+                <input id="out-public-key" type="text" readonly disabled
+                       data-defaults="disabled=$btrue"
+                       onfocus="this.setSelectionRange(0, Number.MAX_SAFE_INTEGER)">
+            </div>
+            <div>
+                <button id="go-to-enc" data-defaults="disabled=$btrue" disabled>Go to encryption</button>
+            </div>
+        </section>
+    </div>
+
+    <div class="page page-encrypt">
+        <h2>Encrypt / Decrypt</h2>
+
+        <div>
+            <section>
+                <label for="in-other-key">The other person's key</label>
+                <input id="in-other-key" type="text" class="input encrypt decrypt"
+                       minlength="64" maxlength="64" pattern="[\dA-Fa-f]+" required autofocus>
+            </section>
+            <section>
+                <label for="in-passphrase-enc">Your secret passphrase <span class="hint">(<strong>never</strong> reveal to others)</span></label>
+                <input id="in-passphrase-enc" type="password" data-defaults="type=password" class="passphrase input encrypt decrypt"
+                       placeholder="Longer and unique is better. Min 12 characters"
+                       minlength="12" required />
+                <div>
+                    <button id="passphrase-show-hide" data-defaults="innerText=Show">Show</button>
+                </div>
+            </section>
+            <section>
+                <label for="message-clear">Cleartext message</label>
+                <textarea id="message-clear" rows="8" data-counterpart="message-cipher" data-role="encrypt"
+                          minlength="1" required
+                          class="input encrypt"></textarea>
+            </section>
+            <section id="buttons-encrypt-decrypt" class="encrypt">
+                <button id="encrypt-message" data-defaults="disabled=$btrue" data-action="encrypt" disabled>Encrypt</button>
+                <button id="decrypt-message" data-defaults="disabled=$btrue" data-action="decrypt" disabled>Decrypt</button>
+                <!-- TODO 'clear plaintext' button in case you want to send multiple messages in a row -->
+            </section>
+            <section>
+                <label for="message-cipher">Encrypted message</label>
+                <textarea id="message-cipher" rows="8" data-counterpart="message-clear" data-role="decrypt"
+                          minlength="1" data-pattern="[\dA-Fa-f]{80,}" required
+                          class="input decrypt"></textarea>
+            </section>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
