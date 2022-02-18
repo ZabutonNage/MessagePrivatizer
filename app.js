@@ -63,17 +63,20 @@
     const pageKeygen = document.querySelector(`.page-generate`);
     const btnSubmitKeygen = pageKeygen.querySelector(`button[type=submit]`);
     const outputKey = pageKeygen.querySelector(`#out-public-key`);
+    const btnCopyKey = pageKeygen.querySelector(`.copy-to-clipboard`);
     const btnGoToEnc = pageKeygen.querySelector(`#go-to-enc`);
 
     pageKeygen.querySelector(`#in-passphrase`).addEventListener(`input`, inputPassphrase);
     pageKeygen.querySelector(`form#generate-key`).addEventListener(`submit`, generateKey);
-    pageKeygen.querySelector(`#go-to-enc`).addEventListener(`click`, toEncryptionWithPhrase);
+    btnCopyKey.addEventListener(`click`, copyTargetToClipboard);
+    btnGoToEnc.addEventListener(`click`, toEncryptionWithPhrase);
 
 
     function inputPassphrase(e) {
         btnSubmitKeygen.disabled = e.target.value.length < 12;
         outputKey.disabled = true;
         outputKey.value = ``;
+        btnCopyKey.disabled = true;
         btnGoToEnc.disabled = true;
     }
 
@@ -89,6 +92,7 @@
         outputKey.disabled = false;
         outputKey.focus();
 
+        btnCopyKey.disabled = false;
         btnGoToEnc.disabled = false;
     }
 
@@ -102,6 +106,7 @@
 
     const pageCrypto = document.querySelector(`.page-encrypt`);
     const sectionCryptoButtons = pageCrypto.querySelector(`#buttons-encrypt-decrypt`);
+    const btnCopyCipherMsg = pageCrypto.querySelector(`.copy-to-clipboard`);
 
     const inputs = {
         encrypt: Array.from(pageCrypto.querySelectorAll(`.input.encrypt`)),
@@ -120,6 +125,7 @@
         .addEventListener(`focus`, e => mode === `encrypt` && e.target.setSelectionRange(0, Number.MAX_SAFE_INTEGER));
     pageCrypto.querySelector(`#encrypt-message`).addEventListener(`click`, onEncryptClick);
     pageCrypto.querySelector(`#decrypt-message`).addEventListener(`click`, onDecryptClick);
+    btnCopyCipherMsg.addEventListener(`click`, copyTargetToClipboard);
 
 
     function onCryptoInput(e) {
@@ -133,9 +139,11 @@
 
                 sectionCryptoButtons.classList.remove(`encrypt`, `decrypt`);
                 sectionCryptoButtons.classList.add(mode);
+
             }
 
             oppositeMsgInput.value = ``;
+            btnCopyCipherMsg.disabled = true;
         }
 
         // TODO highlight invalid inputs with red border or something
@@ -168,6 +176,7 @@
         try {
             outputCipher.value = await encryptMessage(rawKeys, plaintext);
             outputCipher.focus();
+            btnCopyCipherMsg.disabled = false;
         } catch (ex) {
             console.error(ex);
             alert(`ERROR: ${ex.message}`);
@@ -224,5 +233,16 @@
         const ownSecretKey = await sodium.crypto_box_secretkey(ownKeyPair);
 
         return { recipientPublicKey, ownSecretKey };
+    }
+
+
+    // ---- common
+
+    function copyTargetToClipboard() {
+        const keyField = document.getElementById(this.dataset.target);
+        keyField.select();
+        keyField.setSelectionRange(0, Number.MAX_SAFE_INTEGER);
+
+        navigator.clipboard.writeText(keyField.value);
     }
 }());

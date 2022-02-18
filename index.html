@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Simple Public Key Encryption - Message Privatizer</title>
     <!-- TODO favicon -->
+    <!-- TODO preview card icon -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Simple online text encryption tool with public key pattern.">
     <meta name="keywords" content="simple online text message encryption public key">
@@ -29,7 +30,9 @@
         <section>
             <form id="generate-key">
                 <div>
-                    <label for="in-passphrase">Your secret passphrase <span class="hint">(<strong>never</strong> reveal to others)</span></label>
+                    <div class="label-container">
+                        <label for="in-passphrase">Your secret passphrase <span class="hint">(<strong>never</strong> reveal to others)</span></label>
+                    </div>
                     <textarea id="in-passphrase" class="passphrase"
                               placeholder="Longer and unique is better. Min 12 characters"
                               rows="3" minlength="12"
@@ -42,7 +45,10 @@
         </section>
         <section>
             <div>
-                <label for="out-public-key">Your public key <span class="hint">(give to others)</span></label>
+                <div class="label-container">
+                    <label for="out-public-key">Your public key <span class="hint">(give to others)</span></label>
+                    <button class="copy-to-clipboard" data-target="out-public-key" data-defaults="disabled=$btrue" disabled>Copy</button>
+                </div>
                 <input id="out-public-key" type="text" readonly disabled
                        data-defaults="disabled=$btrue"
                        onfocus="this.setSelectionRange(0, Number.MAX_SAFE_INTEGER)">
@@ -58,12 +64,16 @@
 
         <div>
             <section>
-                <label for="in-other-key">The other person's key</label>
+                <div class="label-container">
+                    <label for="in-other-key">The other person's key</label>
+                </div>
                 <input id="in-other-key" type="text" class="input encrypt decrypt"
                        minlength="64" maxlength="64" pattern="[\dA-Fa-f]+" required autofocus>
             </section>
             <section>
-                <label for="in-passphrase-enc">Your secret passphrase <span class="hint">(<strong>never</strong> reveal to others)</span></label>
+                <div class="label-container">
+                    <label for="in-passphrase-enc">Your secret passphrase <span class="hint">(<strong>never</strong> reveal to others)</span></label>
+                </div>
                 <input id="in-passphrase-enc" type="password" data-defaults="type=password" class="passphrase input encrypt decrypt"
                        placeholder="Longer and unique is better. Min 12 characters"
                        minlength="12" required />
@@ -72,7 +82,9 @@
                 </div>
             </section>
             <section>
-                <label for="message-clear">Cleartext message</label>
+                <div class="label-container">
+                    <label for="message-clear">Cleartext message</label>
+                </div>
                 <textarea id="message-clear" rows="8" data-counterpart="message-cipher" data-role="encrypt"
                           minlength="1" required
                           class="input encrypt"></textarea>
@@ -83,7 +95,10 @@
                 <!-- TODO 'clear plaintext' button in case you want to send multiple messages in a row -->
             </section>
             <section>
-                <label for="message-cipher">Encrypted message</label>
+                <div class="label-container">
+                    <label for="message-cipher">Encrypted message</label>
+                    <button class="copy-to-clipboard" data-target="message-cipher" data-defaults="disabled=$btrue" disabled>Copy</button>
+                </div>
                 <textarea id="message-cipher" rows="8" data-counterpart="message-clear" data-role="decrypt"
                           minlength="1" data-pattern="[\dA-Fa-f]{80,}" required
                           class="input decrypt"></textarea>

@@ -44,8 +44,10 @@ main {
 .page section {
     margin-bottom: .75rem;
 }
-.page label {
-    display: block;
+.page .label-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
     margin-bottom: .3rem;
 }
 .page label .hint {
@@ -74,6 +76,9 @@ input, textarea {
     font-family: monospace;
     padding: .2rem;
     margin-bottom: .2rem;
+}
+textarea {
+    resize: vertical;
 }
 u {
     text-decoration: underline;
