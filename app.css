@@ -4,7 +4,7 @@ html {
 body {
     font-family: sans-serif;
     color: #030203;
-    background-color: #857B85;
+    background-color: #756d75;
     margin: 0;
     height: 100vh;
 }
@@ -14,12 +14,12 @@ h1, h2 {
 
 
 header {
-    padding: 1rem;
+    padding: 16px;
     background-color: #574B57;
     border-bottom: 1px solid #1A161A;
 }
 header h1 {
-    font-size: 1.5rem;
+    font-size: 24px;
     line-height: 1;
     margin: 0;
     color: #030203;
@@ -27,8 +27,9 @@ header h1 {
 }
 main {
     margin: auto;
-    padding: 1rem;
+    padding: 16px;
     max-width: 600px;
+    background-color: #857B85;
 }
 
 
